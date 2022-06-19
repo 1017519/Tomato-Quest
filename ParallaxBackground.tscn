@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Backgrounds/parallax_mountain_pack/layers/parallax-mountain-mountains.png" type="Texture" id=1]
+
+[node name="ParallaxBackground" type="ParallaxBackground"]
+layer = -1
+
+[node name="Mountains" type="ParallaxLayer" parent="."]
+motion_scale = Vector2( 0.2, 0.2 )
+motion_mirroring = Vector2( 1700, 0 )
+
+[node name="Sprite" type="Sprite" parent="Mountains"]
+position = Vector2( -261, -639 )
+scale = Vector2( 3.125, 8.05 )
+texture = ExtResource( 1 )
+centered = false
+
+[node name="Trees" type="ParallaxLayer" parent="."]
+visible = false
+motion_scale = Vector2( 0.35, 0.01 )
+motion_mirroring = Vector2( 1000, 100 )

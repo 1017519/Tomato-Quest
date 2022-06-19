@@ -1,0 +1,90 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Sprites/Enemies/Burger/Burger Spritesheet.png" type="Texture" id=1]
+[ext_resource path="res://Burger.gd" type="Script" id=2]
+[ext_resource path="res://ApproachArea.gd" type="Script" id=3]
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 1 )
+region = Rect2( 256, 0, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 1 )
+region = Rect2( 128, 0, 128, 128 )
+
+[sub_resource type="SpriteFrames" id=7]
+animations = [ {
+"frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=13]
+extents = Vector2( 50.4306, 37.7454 )
+
+[sub_resource type="RectangleShape2D" id=14]
+extents = Vector2( 183, 77.2222 )
+
+[sub_resource type="StyleBoxFlat" id=15]
+bg_color = Color( 0.0313726, 0.823529, 0.396078, 1 )
+
+[sub_resource type="StyleBoxFlat" id=16]
+bg_color = Color( 0.945098, 0.231373, 0.0784314, 1 )
+
+[node name="Burger" type="KinematicBody2D"]
+position = Vector2( 197, 173 )
+scale = Vector2( 1.5, 1.5 )
+script = ExtResource( 2 )
+
+[node name="Walking" type="AnimatedSprite" parent="."]
+frames = SubResource( 7 )
+flip_h = true
+
+[node name="Deathspot" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Deathspot"]
+position = Vector2( -2.30656, 0 )
+scale = Vector2( 1.02935, 1 )
+polygon = PoolVector2Array( -13.25, -35.25, -2.5, -34.25, 9.75, -33, 12.5, -36.5, 15.75, -40.75, 21, -41.5, 24.25, -41.5, 26, -36.75, 27.25, -34, 27.25, -31.25, 38, -27, 48, -20.75, 50.25, -17.25, 45.75, -16, -44.25, -16.25, -41.5, -20, -38.5, -24.75, -32.75, -29.5, -29.25, -30.75, -27.75, -30.75, -27.25, -31.75, -27, -34.25, -27.75, -39, -27.25, -42.25, -21.75, -42.5, -16.25, -40.25 )
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2( -0.68055, 17.0046 )
+shape = SubResource( 13 )
+
+[node name="DeathTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="ApproachArea" type="Area2D" parent="."]
+script = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ApproachArea"]
+position = Vector2( 5.66664, -11.1111 )
+shape = SubResource( 14 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Healthbar" type="CanvasLayer" parent="."]
+
+[node name="ProgressBar" type="ProgressBar" parent="Healthbar"]
+visible = false
+anchor_right = 1.0
+margin_bottom = 50.0
+grow_horizontal = 0
+custom_styles/fg = SubResource( 15 )
+custom_styles/bg = SubResource( 16 )
+max_value = 3.0
+value = 3.0
+percent_visible = false
+
+[connection signal="area_entered" from="Deathspot" to="." method="_on_Deathspot_area_entered"]
+[connection signal="timeout" from="DeathTimer" to="." method="_on_DeathTimer_timeout"]
